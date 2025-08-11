@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Contracts\V1;
+
+use App\Models\Account;
+
+interface ManagesAccount
+{
+    public function setAccount(Account $account): self;
+
+    public function getBalance(): int;
+
+    public function deposit(int $amount): self;
+
+    public function withdraw(int $amount): self;
+
+    public function transfer(ManagesAccount $account, int $amount): self;
+}
