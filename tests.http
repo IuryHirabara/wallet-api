@@ -1,0 +1,9 @@
+POST http://localhost/event HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+    "type": "deposit",
+    "destination": "100",
+    "amount": 10
+}
