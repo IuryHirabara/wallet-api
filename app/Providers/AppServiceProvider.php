@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Contracts\V1\{ManagesAccount, RecoversAccount};
+use App\Services\V1\{AccountManager, AccountRetriever};
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(RecoversAccount::class, AccountRetriever::class);
+        $this->app->bind(ManagesAccount::class, AccountManager::class);
     }
 
     /**
