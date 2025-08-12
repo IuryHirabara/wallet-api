@@ -25,42 +25,42 @@ it('should deposit', function (
     );
 })->with('deposit');
 
-// it('should withdraw', function (
-//     string $accountId,
-//     int $amount,
-//     int $expectedBalance,
-//     callable $createOrNotAnAccount,
-//     callable $assertResponse,
-// ) {
-//     $createOrNotAnAccount();
+it('should withdraw', function (
+    string $accountId,
+    int $amount,
+    int $expectedBalance,
+    callable $createOrNotAnAccount,
+    callable $assertResponse,
+) {
+    $createOrNotAnAccount();
 
-//     $response = $this->postJson(route('v1.event.store', [
-//         'type' => 'withdraw',
-//         'origin' => $accountId,
-//         'amount' => $amount,
-//     ]));
+    $response = $this->postJson(route('v1.event.store', [
+        'type' => 'withdraw',
+        'origin' => $accountId,
+        'amount' => $amount,
+    ]));
 
-//     $assertResponse($response, $expectedBalance);
-// })->with('withdraw');
+    $assertResponse($response, $expectedBalance);
+})->with('withdraw');
 
-// it('should transfer', function (
-//     string $fromAccount,
-//     string $toAccount,
-//     int $amount,
-//     callable $createOrNotAccounts,
-//     callable $assertResponse
-// ) {
-//     $createOrNotAccounts();
+it('should transfer', function (
+    string $fromAccount,
+    string $toAccount,
+    int $amount,
+    callable $createOrNotAccounts,
+    callable $assertResponse
+) {
+    $createOrNotAccounts();
 
-//     $response = $this->postJson(route('v1.event.store'), [
-//         'type' => 'transfer',
-//         'origin' => $fromAccount,
-//         'destination' => $toAccount,
-//         'amount' => $amount,
-//     ]);
+    $response = $this->postJson(route('v1.event.store'), [
+        'type' => 'transfer',
+        'origin' => $fromAccount,
+        'destination' => $toAccount,
+        'amount' => $amount,
+    ]);
 
-//     $assertResponse($response);
-// })->with('transfer');
+    $assertResponse($response);
+})->with('transfer');
 
 dataset('deposit', [
     'creating an account' => ['100', 10, 10, function () {}],
