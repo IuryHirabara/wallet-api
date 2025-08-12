@@ -6,6 +6,10 @@
 
 ###
 
+GET http://{{host}}/balance?account_id=100 HTTP/1.1
+
+###
+
 POST http://{{host}}/event HTTP/1.1
 Accept: {{accept}}
 Content-Type: {{contentType}}
