@@ -3,6 +3,7 @@
 namespace App\Services\V1\MoneyOperations;
 
 use App\Contracts\V1\{ManagesAccount, PerformsMoneyOperation, RecoversAccount};
+use App\Models\Account;
 use App\Services\V1\AccountManager;
 use Illuminate\Support\Collection;
 
@@ -22,9 +23,14 @@ class MoneyTransfer implements PerformsMoneyOperation
             $data->get('origin')
         );
 
-        $toAccount = $this->accountRetriever->findByIdOrFail(
-            $data->get('destination')
-        );
+        $toAccountId = $data->get('destination');
+
+        $toAccount = $this->accountRetriever->findById($toAccountId);
+
+        if (!$toAccount) {
+            $toAccount = Account::create(['id' => $toAccountId, 'balance' => 0]);
+            $toAccount = $this->accountRetriever->findByIdOrFail($toAccountId);
+        }
 
         $this->manager = new AccountManager();
         $this->manager->setAccount($account);
@@ -39,9 +45,18 @@ class MoneyTransfer implements PerformsMoneyOperation
     {
         $this->manager->transfer($this->toManager, $amount);
 
+        $account = $this->manager->getAccount();
+        $toAccount = $this->toManager->getAccount();
+
         return [
-            'origin' => $this->manager->getAccount(),
-            'destination' => $this->toManager->getAccount()
+            'origin' => [
+                'id' => (string) $account->id,
+                'balance' => $account->balance
+            ],
+            'destination' => [
+                'id' => (string) $toAccount->id,
+                'balance' => $toAccount->balance,
+            ]
         ];
     }
 }
