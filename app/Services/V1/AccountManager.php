@@ -16,9 +16,9 @@ class AccountManager implements ManagesAccount
         return $this;
     }
 
-    public function getBalance(): int
+    public function getAccount(): Account
     {
-        return $this->account->balance;
+        return $this->account;
     }
 
     public function deposit(int $amount): self
