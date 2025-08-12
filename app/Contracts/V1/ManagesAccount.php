@@ -6,9 +6,9 @@ use App\Models\Account;
 
 interface ManagesAccount
 {
-    public function setAccount(Account $account): self;
+    public function getAccount(): Account;
 
-    public function getBalance(): int;
+    public function setAccount(Account $account): self;
 
     public function deposit(int $amount): self;
 
