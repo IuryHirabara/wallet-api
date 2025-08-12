@@ -2,16 +2,37 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Contracts\V1\RecoversAccount;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\StoreEventRequest;
+use App\Services\V1\MoneyOperations\MoneyOperationFactory;
+use App\Services\V1\Wallet\WalletManager;
+use Illuminate\Http\Response;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class EventController extends Controller
 {
-    public function store(StoreEventRequest $request)
+    public function __construct(
+        private readonly WalletManager $walletManager
+    ) {}
+
+    public function store(StoreEventRequest $request, RecoversAccount $accountRetriever)
     {
         $type = $request->validated('type');
-        $validated = collect($request->except('type'));
+        $amount = $request->validated('amount');
+        $validated = collect($request->validated());
 
-        // implement event handling
+        $moneyOperation = MoneyOperationFactory::create($type, $accountRetriever);
+
+        try {
+            $moneyOperation->setManagersFromData($validated);
+        } catch (NotFoundResourceException $e) {
+            return response('0', Response::HTTP_NOT_FOUND);
+        }
+
+        $data = $this->walletManager->setMoneyOperation($moneyOperation)
+            ->doMoneyOperation($amount);
+
+        return response()->json($data, Response::HTTP_CREATED);
     }
 }
