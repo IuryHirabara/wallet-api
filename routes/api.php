@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\V1\{BalanceController, EventController};
+use App\Http\Controllers\V1\{BalanceController, EventController, ResetController};
 use Illuminate\Support\Facades\Route;
 
 Route::name('v1.')->group(function () {
@@ -12,5 +12,10 @@ Route::name('v1.')->group(function () {
     Route::controller(EventController::class)->prefix('event')->name('event.')
         ->group(function () {
             Route::post('', 'store')->name('store');
+        });
+
+    Route::controller(ResetController::class)->prefix('reset')->name('reset.')
+        ->group(function () {
+            Route::post('', 'index')->name('index');
         });
 });
