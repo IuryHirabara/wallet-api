@@ -36,8 +36,13 @@ class MoneyDepositor implements PerformsMoneyOperation
     {
         $this->manager->deposit($amount);
 
+        $account = $this->manager->getAccount();
+
         return [
-            'destination' => $this->manager->getAccount(),
+            'destination' => [
+                'id' => (string) $account->id,
+                'balance' => $account->balance,
+            ],
         ];
     }
 }

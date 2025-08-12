@@ -28,8 +28,13 @@ class MoneyWithdraw implements PerformsMoneyOperation
     {
         $this->manager->withdraw($amount);
 
+        $account = $this->manager->getAccount();
+
         return [
-            'origin' => $this->manager->getAccount(),
+            'origin' => [
+                'id' => (string) $account->id,
+                'balance' => $account->balance
+            ],
         ];
     }
 }
