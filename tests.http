@@ -27,3 +27,7 @@ Content-Type: {{contentType}}
     "origin": "100",
     "amount": 10
 }
+
+###
+
+POST http://{{host}}/reset HTTP/1.1
