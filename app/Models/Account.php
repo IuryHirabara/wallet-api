@@ -9,5 +9,10 @@ class Account extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'id',
+        'balance',
+    ];
+
     public $timestamps = false;
 }
