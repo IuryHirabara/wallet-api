@@ -1,9 +1,29 @@
-POST http://localhost/event HTTP/1.1
-Accept: application/json
-Content-Type: application/json
+###
+
+@host = localhost
+@accept = application/json
+@contentType = application/json
+
+###
+
+POST http://{{host}}/event HTTP/1.1
+Accept: {{accept}}
+Content-Type: {{contentType}}
 
 {
     "type": "deposit",
     "destination": "100",
+    "amount": 10
+}
+
+###
+
+POST http://{{host}}/event HTTP/1.1
+Accept: {{accept}}
+Content-Type: {{contentType}}
+
+{
+    "type": "withdraw",
+    "origin": "100",
     "amount": 10
 }
