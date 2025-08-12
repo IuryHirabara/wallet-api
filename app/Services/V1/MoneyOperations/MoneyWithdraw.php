@@ -3,6 +3,7 @@
 namespace App\Services\V1\MoneyOperations;
 
 use App\Contracts\V1\{ManagesAccount, PerformsMoneyOperation, RecoversAccount};
+use App\Http\Resources\V1\AccountResource;
 use App\Services\V1\AccountManager;
 use Illuminate\Support\Collection;
 
@@ -28,13 +29,8 @@ class MoneyWithdraw implements PerformsMoneyOperation
     {
         $this->manager->withdraw($amount);
 
-        $account = $this->manager->getAccount();
-
         return [
-            'origin' => [
-                'id' => (string) $account->id,
-                'balance' => $account->balance
-            ],
+            'origin' => new AccountResource($this->manager->getAccount())
         ];
     }
 }
