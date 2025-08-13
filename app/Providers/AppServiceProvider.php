@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Contracts\V1\{ManagesAccount, RecoversAccount};
+use App\Contracts\V1\Account\{ManagesAccount, RecoversAccount};
 use App\Services\V1\Account\{AccountManager, AccountRetriever};
 use Illuminate\Support\ServiceProvider;
 

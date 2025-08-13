@@ -2,7 +2,8 @@
 
 namespace App\Services\V1\MoneyOperations;
 
-use App\Contracts\V1\{ManagesAccount, PerformsMoneyOperation, RecoversAccount};
+use App\Contracts\V1\Account\{ManagesAccount, RecoversAccount};
+use App\Contracts\V1\MoneyOperations\PerformsMoneyOperation;
 use App\Http\Resources\V1\AccountResource;
 use App\Models\Account;
 use App\Services\V1\Account\AccountManager;

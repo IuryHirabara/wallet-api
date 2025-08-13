@@ -2,7 +2,7 @@
 
 namespace App\Services\V1\Account;
 
-use App\Contracts\V1\RecoversAccount;
+use App\Contracts\V1\Account\RecoversAccount;
 use App\Models\Account;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 

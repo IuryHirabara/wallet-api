@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts\V1;
+namespace App\Contracts\V1\MoneyOperations;
 
 use Illuminate\Support\Collection;
 

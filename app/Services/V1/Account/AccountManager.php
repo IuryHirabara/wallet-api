@@ -2,7 +2,7 @@
 
 namespace App\Services\V1\Account;
 
-use App\Contracts\V1\ManagesAccount;
+use App\Contracts\V1\Account\ManagesAccount;
 use App\Models\Account;
 
 class AccountManager implements ManagesAccount

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Contracts\V1\{RecoversAccount};
+use App\Contracts\V1\Account\RecoversAccount;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\{Request, Response};
 
