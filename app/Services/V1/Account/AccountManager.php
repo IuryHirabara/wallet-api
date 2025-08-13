@@ -5,6 +5,9 @@ namespace App\Services\V1\Account;
 use App\Contracts\V1\Account\ManagesAccount;
 use App\Models\Account;
 
+/**
+ * Service for managing wallet accounts.
+ */
 class AccountManager implements ManagesAccount
 {
     private Account $account;
@@ -21,6 +24,12 @@ class AccountManager implements ManagesAccount
         return $this->account;
     }
 
+    /**
+     * Deposit money into the account. Amount should be validated before calling this method.
+     *
+     * @param int $amount
+     * @return self
+     */
     public function deposit(int $amount): self
     {
         $this->account->increment('balance', $amount);
@@ -28,6 +37,12 @@ class AccountManager implements ManagesAccount
         return $this;
     }
 
+    /**
+     * Withdraw money from the account. Amount should be validated before calling this method.
+     *
+     * @param int $amount
+     * @return self
+     */
     public function withdraw(int $amount): self
     {
         $this->account->balance -= $amount;
@@ -39,6 +54,13 @@ class AccountManager implements ManagesAccount
         return $this;
     }
 
+    /**
+     * Transfer money from this account to another account. Amount should be validated before calling this method.
+     *
+     * @param ManagesAccount $account
+     * @param int $amount
+     * @return self
+     */
     public function transfer(ManagesAccount $account, int $amount): self
     {
         $this->withdraw($amount);
