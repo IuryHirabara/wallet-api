@@ -4,6 +4,9 @@ namespace App\Services\V1\Wallet;
 
 use App\Contracts\V1\MoneyOperations\PerformsMoneyOperation;
 
+/**
+ * Class to manage wallet operations.
+ */
 class WalletManager
 {
     private PerformsMoneyOperation $moneyOperation;
