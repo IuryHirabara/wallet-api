@@ -19,6 +19,15 @@ class MoneyTransfer implements PerformsMoneyOperation
         private RecoversAccount $accountRetriever
     ) {}
 
+    /**
+     * Set AccountManager of origin and destination accounts based on data received in request. The data should have a 'origin' key and a 'destination' key with the respective account IDs.
+     *
+     * This method will try to find the accounts by ID and set them in the manager and toManager properties. If not found, it will create a new account for destination. For the origin account it will throw a NotFoundResourceException.
+     *
+     * @param Collection $data
+     * @return void
+     * @throws NotFoundResourceException
+     */
     public function setManagersFromData(Collection $data)
     {
         $account = $this->accountRetriever->findByIdOrFail(
@@ -43,6 +52,12 @@ class MoneyTransfer implements PerformsMoneyOperation
         return $this;
     }
 
+    /**
+     * Perform the transfer operation between the managed accounts and return the updated account resources.
+     *
+     * @param int $amount
+     * @return array
+     */
     public function doMoneyOperation(int $amount)
     {
         $this->manager->transfer($this->toManager, $amount);

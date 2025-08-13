@@ -8,6 +8,9 @@ use App\Http\Resources\V1\AccountResource;
 use App\Services\V1\Account\AccountManager;
 use Illuminate\Support\Collection;
 
+/**
+ * Service to withdraw money from accounts.
+ */
 class MoneyWithdraw implements PerformsMoneyOperation
 {
     private ManagesAccount $manager;
@@ -16,6 +19,15 @@ class MoneyWithdraw implements PerformsMoneyOperation
         private RecoversAccount $accountRetriever
     ) {}
 
+    /**
+     * Set AccountManager based on account data received in request. The data should have a 'origin' key with the account ID.
+     *
+     * This method will try to find the account by ID and set it in the manager property. If not found, it will throw a NotFoundResourceException.
+     * 
+     * @param Collection $data
+     * @return void
+     * @throws NotFoundResourceException
+     */
     public function setManagersFromData(Collection $data)
     {
         $account = $this->accountRetriever->findByIdOrFail(
@@ -26,6 +38,12 @@ class MoneyWithdraw implements PerformsMoneyOperation
         $this->manager->setAccount($account);
     }
 
+    /**
+     * Perform the withdraw operation on the account managed by the manager property and return the origin account as a resource.
+     *
+     * @param int $amount
+     * @return array
+     */
     public function doMoneyOperation(int $amount)
     {
         $this->manager->withdraw($amount);
