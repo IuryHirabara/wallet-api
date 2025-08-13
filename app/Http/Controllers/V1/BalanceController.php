@@ -8,6 +8,13 @@ use Illuminate\Http\{Request, Response};
 
 class BalanceController extends Controller
 {
+    /**
+     * Display the balance of a specific account.
+     *
+     * @param Request $request
+     * @param RecoversAccount $retriever
+     * @return Response
+     */
     public function show(Request $request, RecoversAccount $retriever)
     {
         $account = $retriever->findById($request->query('account_id'));

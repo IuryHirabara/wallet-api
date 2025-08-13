@@ -16,6 +16,13 @@ class EventController extends Controller
         private readonly WalletManager $walletManager
     ) {}
 
+    /**
+     * Do a money operation based on the event type. To know which types are accepted see the MoneyOperationFactory.
+     *
+     * @param StoreEventRequest $request
+     * @param RecoversAccount $accountRetriever
+     * @return Response
+     */
     public function store(StoreEventRequest $request, RecoversAccount $accountRetriever)
     {
         $type = $request->validated('type');
