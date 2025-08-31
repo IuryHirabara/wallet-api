@@ -72,14 +72,9 @@ class AccountManager implements ManagesAccount
      * @param ManagesAccount $account
      * @param int $amount
      * @return self
-     * @throws ValidationException if the amount is less than 1
      */
     public function transfer(ManagesAccount $account, int $amount): self
     {
-        if ($amount < 1) {
-            throw ValidationException::withMessages(["amount must be greater than 0"]);
-        }
-
         $this->withdraw($amount);
 
         $account->deposit($amount);
