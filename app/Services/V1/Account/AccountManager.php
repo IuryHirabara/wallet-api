@@ -4,6 +4,8 @@ namespace App\Services\V1\Account;
 
 use App\Contracts\V1\Account\ManagesAccount;
 use App\Models\Account;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Service for managing wallet accounts.
@@ -42,12 +44,22 @@ class AccountManager implements ManagesAccount
      *
      * @param int $amount
      * @return self
+     * @throws ValidationException if the amount is greater than the balance.
      */
     public function withdraw(int $amount): self
     {
-        $this->account->balance -= $amount;
+        DB::transaction(function () use ($amount) {
+            $account = DB::table('accounts')->where('id', $this->account->id)
+                ->lockForUpdate()->first();
 
-        $this->account->save();
+            if ($account->balance < $amount) {
+                $message = "insufficient funds in account ID '{$this->account->id}'";
+                throw ValidationException::withMessages([$message]);
+            }
+
+            DB::table('accounts')->where('id', $this->account->id)
+                ->update(['balance' => $account->balance - $amount]);
+        });
 
         $this->account->refresh();
 
@@ -60,6 +72,7 @@ class AccountManager implements ManagesAccount
      * @param ManagesAccount $account
      * @param int $amount
      * @return self
+     * @throws ValidationException if the amount is less than 1
      */
     public function transfer(ManagesAccount $account, int $amount): self
     {

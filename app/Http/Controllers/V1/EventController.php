@@ -8,6 +8,7 @@ use App\Http\Requests\V1\StoreEventRequest;
 use App\Services\V1\MoneyOperations\MoneyOperationFactory;
 use App\Services\V1\Wallet\WalletManager;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class EventController extends Controller
@@ -33,12 +34,14 @@ class EventController extends Controller
 
         try {
             $moneyOperation->setManagersFromData($validated);
+
+            $data = $this->walletManager->setMoneyOperation($moneyOperation)
+                ->doMoneyOperation($amount);
         } catch (NotFoundResourceException $e) {
             return response('0', Response::HTTP_NOT_FOUND);
+        } catch (ValidationException $e) {
+            return response('0', Response::HTTP_NOT_FOUND);
         }
-
-        $data = $this->walletManager->setMoneyOperation($moneyOperation)
-            ->doMoneyOperation($amount);
 
         return response()->json($data, Response::HTTP_CREATED);
     }
